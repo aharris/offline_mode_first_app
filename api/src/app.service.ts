@@ -6,7 +6,7 @@ export class AppService {
   async getHello(): Promise<string> {
     return await new Promise<string>((resolve) => {
       setTimeout(() => {
-        resolve(`Hello World! ${faker.person.firstName()}`);
+        resolve(`Hello ${faker.person.firstName()}!`);
       }, 3000);
     });
   }
