@@ -46,10 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getIt<SembastService>().init();
 
-      final res = await getIt<ApiService>().getHello();
-
-      setState(() {
-        _hello = res;
+      getIt<ApiService>().getHello().listen((res) {
+        setState(() {
+          _hello = res;
+        });
       });
     });
   }
