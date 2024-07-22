@@ -38,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late String _hello = '';
+  late bool _done = false;
 
   @override
   void initState() {
@@ -50,6 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _hello = res;
         });
+      }).onDone(() {
+        setState(() {
+          _done = true;
+        });
       });
     });
   }
@@ -61,13 +66,33 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Offline Mode First'),
       ),
-      body: Center(
-          child: _hello.isNotEmpty
-              ? Text(
-                  _hello,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )
-              : const CircularProgressIndicator()),
+      body: Stack(
+        children: [
+          Center(
+              child: _hello.isNotEmpty
+                  ? Text(
+                      _hello,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    )
+                  : const CircularProgressIndicator()),
+          Visibility(
+            visible: !_done,
+            child: const Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Dialog(
+                backgroundColor: Color.fromRGBO(0, 0, 0, .1),
+                child: Center(
+                    child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Loading...'),
+                )),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
